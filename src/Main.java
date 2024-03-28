@@ -26,22 +26,16 @@ public class Main extends PApplet{
         size(600,600);
     }
     @Override public void setup(){
+        //Variables Setup
+
+
         size(600,600);
         background(32);
-    }
 
-    @Override public void draw(){
-
-        rect(mouseX,mouseY,100,100);
 
     }
 
-
-    public static void main(String[] args) {
-        PApplet.main("Main");
-
-
-        //Variables Setup
+  public void draw(){
         Scanner sc = new Scanner(System.in);
 
 
@@ -54,7 +48,6 @@ public class Main extends PApplet{
         String name = null;
 
 
-        //Variables
 
         if(sc.nextLine().equals("Dev")){
             String[]devDecisions = ((sc.nextLine()).split(" "));
@@ -67,9 +60,14 @@ public class Main extends PApplet{
         beginningTwo(decisions, keyPoints, inventory);
         hallwayThree(decisions, keyPoints, inventory);
 
-        decisions.add(sc.nextLine());
+
+        System.out.println("hi");
+
+    }
 
 
+    public static void main(String[] args) {
+        PApplet.main("Main");
 
 
     }
@@ -83,8 +81,6 @@ public class Main extends PApplet{
         } else{
             System.out.println("I told Flo I wouldn't meet with her, which means I have time to visit two places.");
         }
-
-      //  Main.background(400);
 
 
     }
@@ -117,7 +113,7 @@ public class Main extends PApplet{
         }
         System.out.println("In any case, she stopped paying attention in class and hopped on her phone. Something about managing the school's confession account.");
 
-
+        lunch(decisions,keyPoints,inventory);
 
 
     }
