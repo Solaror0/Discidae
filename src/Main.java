@@ -5,12 +5,8 @@ Author - Jun Nur
 Last Edited -
 */
 
-import javax.sound.midi.Soundbank;
-import java.sql.SQLOutput;
 import java.util.*;
 import java.io.*;
-
-import com.sun.security.jgss.GSSUtil;
 import processing.core.*;
 
 
@@ -115,8 +111,6 @@ public class Main extends PApplet{
 
     public static void bloodThirsty(ArrayList<String> decisions){
 
-
-        Scanner sc = new Scanner(System.in);
         pressEnter();
 
         System.out.println(ANSI_BLUE + "The holy sword delivered justice through you as a medium." + ANSI_RESET);
@@ -132,7 +126,22 @@ public class Main extends PApplet{
 
         System.out.println("Your decisions made were: " + decisions.toString());
     }
+    public static void leaveSchool(ArrayList<String> decisions){
+        pressEnter();
 
+        System.out.println(ANSI_PURPLE + "You chose to leave the school, prioritizing your own safety. God knows what you left back in there." + ANSI_RESET);
+
+        System.out.println("  ______                     _                     ______             _  _               \n" +
+                " |  ____|                   | |                   |  ____|           | |(_)              \n" +
+                " | |__  _ __  ___   ___   __| |  ___   _ __ ___   | |__    _ __    __| | _  _ __    __ _ \n" +
+                " |  __|| '__|/ _ \\ / _ \\ / _` | / _ \\ | '_ ` _ \\  |  __|  | '_ \\  / _` || || '_ \\  / _` |\n" +
+                " | |   | |  |  __/|  __/| (_| || (_) || | | | | | | |____ | | | || (_| || || | | || (_| |\n" +
+                " |_|   |_|   \\___| \\___| \\__,_| \\___/ |_| |_| |_| |______||_| |_| \\__,_||_||_| |_| \\__, |\n" +
+                "                                                                                    __/ |\n" +
+                "                                                                                   |___/ ");
+
+        System.out.println("Your decisions made were: " + decisions.toString());
+    }
 
 
     public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
@@ -324,7 +333,7 @@ public class Main extends PApplet{
 
                 switch (choose){
                     case "A":
-                        System.out.println("LEAVESCHOOL METHOD");
+                        leaveSchool(decisions);
                         break;
 
                     case "B":
@@ -724,7 +733,7 @@ public class Main extends PApplet{
 
                                         switch (choice){
                                             case "A":
-                                                System.out.println("LEAVESCHOOL METHOD");
+                                                leaveSchool(decisions);
                                                 break;
 
                                             case "B":
@@ -836,7 +845,7 @@ public class Main extends PApplet{
 
                                 switch (choice){
                                     case "A":
-                                        System.out.println("LEAVESCHOOL METHOD");
+                                        leaveSchool(decisions);
                                         break;
 
                                     case "B":

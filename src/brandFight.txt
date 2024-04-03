@@ -1,0 +1,24 @@
+Strategy/Mechanics:
+
+If you don't want to straight up look at the choices needed, the strategy is fairly simple.
+Each message detailing Brand's attack, as well as the holy sword message, will 
+give hints as to what choice to pick. 
+
+E.g, if his knife is held in the left hand, it means that its on your right. Therefore,
+attacking from the right is not a good idea.
+
+Most wrong decisions in the fight lead to death. 
+The first decision (the desk throw), leads to either death, a harder fight, or a normal fight.
+
+
+Choices:
+
+- Choose to go slide under the desk
+- Do not choose to thrust at Brand
+- Stab his stomach
+
+or
+
+- Choose to block the desk
+- Do not choose anything related to flames
+- Do not pick up the knife

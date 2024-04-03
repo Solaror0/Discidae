@@ -1,0 +1,20 @@
+Flo's Fight
+
+
+Mechanics:
+Flo's fight ranges in difficulty based on if you are fighting her with the 
+holy sword, altar key, or nothing.
+
+Holy Sword - Rolls are out of 5, +2 to ATK, Information on health and Flo's attack
+Altar Key - Rolls are out of 4, +1 to ATK, Janky and hard to read information
+Fists - Rolls are out of 3, -1 to ATK, No information except a println on how MC is feeling (health)
+
+
+Strategy:
+The strategy is to block for most attacks, and dodge for attacks under 3 ATK. 
+Flo gets a +2 Bonus to ATK, so <3 ATK means she rolled a <1. So you have a high chance of rolling higher than that.
+
+For Holy Sword, playing solidly works out just fine. The main thing to worry about is blocking and dodging.
+
+For the others (and still useful for Holy Sword), using the Wait is the main strategy. As it increases
+the roll to 12 regardless of the weapon, thus allowing you to balance the playing field. Its only con is that it skips your turn, so if you get unlucky you have wasted a possible attack turn.
