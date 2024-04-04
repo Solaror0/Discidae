@@ -7,12 +7,15 @@ Last Edited -
 
 import java.util.*;
 import java.io.*;
+
+import java.util.regex.*;
+
 import processing.core.*;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main extends PApplet{
+public class Main extends PApplet {
     //COLOUR VARS DECLARATION
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";
@@ -97,12 +100,14 @@ public class Main extends PApplet{
         System.out.println(ANSI_PURPLE + "\n Press Enter to Continue" + ANSI_RESET);
         sc.nextLine();
     }
-    public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions){
+    public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions) {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns  + " turns.");
         System.out.println("Your decisions made were: " + decisions.toString());
-    } public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions, String specialMessage){
+       // runCounter(decisions,causeOfDeath);
+    } public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions, String specialMessage) {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns  + " turns.");
         System.out.println("Your decisions made were: " + decisions.toString());
+     //   runCounter(decisions,causeOfDeath);
     }
     public static void turnIterator(HashMap<String,Integer>inventory){
         inventory.put("Decisions",inventory.get("Decisions")+1);
@@ -113,7 +118,7 @@ public class Main extends PApplet{
 
         pressEnter();
 
-        System.out.println(ANSI_BLUE + "The holy sword delivered justice through you as a medium." + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "The holy sword delivered justice through you as a medium. Bloodthirsty Ending!" + ANSI_RESET);
 
         System.out.println("  ____   _                    _   _______  _      _             _            ______             _  _               \n" +
                 " |  _ \\ | |                  | | |__   __|| |    (_)           | |          |  ____|           | |(_)              \n" +
@@ -125,6 +130,7 @@ public class Main extends PApplet{
                 "                                                                     |___/                                   |___/ ");
 
         System.out.println("Your decisions made were: " + decisions.toString());
+        //runCounter(decisions,"The holy sword delivered justice through you as a medium. Bloodthirsty Ending!");
     }
     public static void leaveSchool(ArrayList<String> decisions){
         pressEnter();
@@ -143,6 +149,28 @@ public class Main extends PApplet{
         System.out.println("Your decisions made were: " + decisions.toString());
     }
 
+    public static void runCounter(ArrayList<String> decisions,String ending) throws IOException {
+        //first opening the file as READ to get the run number
+
+        File temp = new File("runs.txt");
+        Scanner runsRead = new Scanner(temp);
+        String runNum = null;
+
+        while (runsRead.hasNext()){
+            String next = runsRead.next();
+            if("0123456789".contains(next)){
+                runNum = next; //only need the most recent one so if it updates everytime theres a number that works
+            }
+        }
+        runsRead.close();
+
+        FileWriter runFile = new FileWriter("runs.txt");
+        PrintWriter runs = new PrintWriter(runFile);
+        runs.println("Run #: " + runNum + "\n Ending: " + ending + "\n" + "\n Decisions: " + decisions + "\n");
+        runs.close();
+
+
+    }
 
     public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
         int myRoll = 0, atkBoost = 0, atkRoll = 0, dodgeBoost =0, floRoll = 0, floAtk = 5;
