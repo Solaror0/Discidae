@@ -8,53 +8,20 @@ Last Edited -
 import java.util.*;
 import java.io.*;
 
-import java.util.regex.*;
-
-import processing.core.*;
-
-
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main extends PApplet {
+public class Main {
     //COLOUR VARS DECLARATION
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_BLUE = "\u001B[34m";
 
-    public static String bgFile = "blankPic.png";
-
     //public static String imageName = "blankPic.png";
-    //COLOUR VARS DECLARATION
+    //COLOUR VARS DECLARATIO
 
+    public static void main(String[] args) throws IOException {
 
-    @Override public void settings(){
-        size(600,600);
-    }
-    @Override public void setup(){
-        //Variables Setup
-
-       // PImage img = loadImage(bgFile);
-       // image(img,0,0);
-
-
-        size(600,600);
-        background(32);
-
-    ;
-
-
-    }
-
-  public void draw(){
-      PImage img = loadImage(bgFile);
-      image(img,0,0);
-
-
-    }
-
-    public static void main(String[] args) {
-        PApplet.main("Main");
         Scanner sc = new Scanner(System.in);
 
 
@@ -90,31 +57,26 @@ public class Main extends PApplet {
 
     }
 
-    public static void imageChanger(String fileName){
-        bgFile = fileName + ".png";
-
-    }
-
     public static void pressEnter(){
         Scanner sc = new Scanner(System.in);
         System.out.println(ANSI_PURPLE + "\n Press Enter to Continue" + ANSI_RESET);
         sc.nextLine();
     }
-    public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions) {
+    public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions) throws IOException {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns  + " turns.");
         System.out.println("Your decisions made were: " + decisions.toString());
-       // runCounter(decisions,causeOfDeath);
-    } public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions, String specialMessage) {
+        runCounter(decisions,causeOfDeath);
+    } public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions, String specialMessage) throws IOException {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns  + " turns.");
         System.out.println("Your decisions made were: " + decisions.toString());
-     //   runCounter(decisions,causeOfDeath);
+        runCounter(decisions,causeOfDeath);
     }
     public static void turnIterator(HashMap<String,Integer>inventory){
         inventory.put("Decisions",inventory.get("Decisions")+1);
     }
 
 
-    public static void bloodThirsty(ArrayList<String> decisions){
+    public static void bloodThirsty(ArrayList<String> decisions) throws IOException {
 
         pressEnter();
 
@@ -130,7 +92,7 @@ public class Main extends PApplet {
                 "                                                                     |___/                                   |___/ ");
 
         System.out.println("Your decisions made were: " + decisions.toString());
-        //runCounter(decisions,"The holy sword delivered justice through you as a medium. Bloodthirsty Ending!");
+        runCounter(decisions,"The holy sword delivered justice through you as a medium. Bloodthirsty Ending!");
     }
     public static void leaveSchool(ArrayList<String> decisions){
         pressEnter();
@@ -149,6 +111,34 @@ public class Main extends PApplet {
         System.out.println("Your decisions made were: " + decisions.toString());
     }
 
+    public static void printEngine(String fileName,ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
+
+        File file = new File("print/"+fileName);
+        Scanner printFile = new Scanner(file);
+
+        while(printFile.hasNextLine()){
+            String line = printFile.nextLine();
+
+            if(line.equals("pressEnter")){
+                pressEnter();
+            } else if (line.equals("ENDEND")){
+                break;
+            } else if (line.equals("PLAYERINPUTSTART")){
+
+                while(!(line.equals("PLAYERINPUTEND"))){
+                    line = printFile.nextLine();
+                }
+                String[]validInputs = (printFile.nextLine()).split(",");
+
+                decisionModule(validInputs,keyPoints,inventory,decisions);
+
+            } else{
+                System.out.println(line);
+            }
+        }
+
+
+    }
     public static void runCounter(ArrayList<String> decisions,String ending) throws IOException {
         //first opening the file as READ to get the run number
 
@@ -159,20 +149,50 @@ public class Main extends PApplet {
         while (runsRead.hasNext()){
             String next = runsRead.next();
             if("0123456789".contains(next)){
-                runNum = next; //only need the most recent one so if it updates everytime theres a number that works
+                runNum = String.valueOf((Integer.parseInt(next)+1)); //only need the most recent one so if it updates everytime theres a number that works
             }
         }
         runsRead.close();
 
-        FileWriter runFile = new FileWriter("runs.txt");
+        FileWriter runFile = new FileWriter("runs.txt",true);
         PrintWriter runs = new PrintWriter(runFile);
-        runs.println("Run #: " + runNum + "\n Ending: " + ending + "\n" + "\n Decisions: " + decisions + "\n");
+        runs.println("Run #: " + runNum + "\nEnding: \"" + ending + "\"\n" + "Decisions: " + decisions + "\n");
         runs.close();
 
 
     }
 
-    public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void traitorArc(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+        System.out.println("I chose to live. I was forced to. I mean, choose to die? Why would I ever do that. \n Would I have to kill.. the other students?");
+        System.out.println("Flo explained it to me before leaving me still sitting on the ground. \n" +
+                "I would have to .. brainstorm basically, and find the other three students. \n " +
+                "Then, she gave me a knife. I wouldn't stab them, but the knife would siphon their soul upon contact. \n" +
+                "After I gave it to her, her and the other spirits would be able to set their ritual off. Something to do with the whole school.");
+
+        System.out.println("Before she left though, she shoved something in my mouth. Told me it would keep me calm. ");
+
+        pressEnter();
+        System.out.println("Half an hour passed as I brainstormed.\n" +
+                " It was less going through each person and more following a mental trail that \n already existed.. according to Flo." +
+                "\n Apparantly it was similar to how I started smelling out their demon-ness." +
+                "\n It didn't take me long, I had my names. Cleo, Ahmed, and Cameron.");
+
+        pressEnter();
+        System.out.println(ANSI_PURPLE + "Choose your first target. Only the first choice matters. \n A. Cleo \n B. Ahmed \n C. Cameron");
+        String choice = decisionModule(new String[]{"A,B,C"},keyPoints,inventory,decisions);
+
+        switch (choice){
+            case "A":
+                break;
+            case "B":
+                break;
+            case "C":
+                break;
+        }
+
+
+    }
+    public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         int myRoll = 0, atkBoost = 0, atkRoll = 0, dodgeBoost =0, floRoll = 0, floAtk = 5;
         int floHealth = 25, myHealth = 25;
 
@@ -422,14 +442,33 @@ public class Main extends PApplet {
         } else {
             pressEnter();
             if(keyPoints.get("floLike")){
-                System.out.println("I wasn't dead..?");
+                System.out.println("I was on the ground, breathing heavy, and hurt. \n I was scared, and confused. I mean, what else would I be? \n");
+                pressEnter();
+                System.out.println(ANSI_YELLOW + "You tried." + ANSI_RESET + "\n Flo would stare at me for a while, before smiling." +
+                      ANSI_YELLOW +  " \n Listen, you're my.. friend. And you're the 4th kid we know of like you, a little special. \n" +
+                        "We need only need to deal with three of them. But its not so easy to find them. \n You on the other hand, might have an easier time. \n");
+
+                pressEnter();
+                System.out.println(ANSI_YELLOW + "What do you say? If you help me find them and take care of them, I won't end it right here." + ANSI_RESET);
+                pressEnter();
+                System.out.println(ANSI_PURPLE + "Make a decision: \n A. Agree to Flo's deal. \n A. Refuse Flo's deal");
+                String choose = decisionModule(new String[]{"A","B"},keyPoints,inventory,decisions);
+                switch(choose){
+                    case "A":
+                        //traitor method
+                        break;
+                    case "B":
+                        deathScreen("You stayed true to your humanity.", decisions.size(),decisions);
+                        break;
+                }
+
             } else{
             deathScreen("It was over as soon as it started.",decisions.size(),decisions);}
         }
 
 
     }
-    public static void doddsFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void doddsFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         pressEnter();
         System.out.println(ANSI_BLUE + "Dodd's fight format is the most simple, but also the most annoying. \n " +
                 "Her mind attempts to take control of yours, if you win she perishes. \n To simplify the battle of the mind, the holy sword is using the format of riddles. \n" +
@@ -517,7 +556,7 @@ public class Main extends PApplet {
 
 
     }
-    public static void doddsTalkOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void doddsTalkOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         System.out.println("I was roaming the hallways for a little before going to my next class. No need to be so early after all. And I had managed to be near my English classroom. \n" +
                 "Of course, Ms. Dodds doesn't like me, she made that clear enough. So I try to walk especially fast by..." +
@@ -551,7 +590,7 @@ public class Main extends PApplet {
         }
     }
 
-    public static void postLunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void postLunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         if(keyPoints.get("brandKey")){
             pressEnter();
@@ -643,7 +682,7 @@ public class Main extends PApplet {
                 fightIntro(keyPoints);
                 floFight(decisions,keyPoints,inventory);
             } else{
-                System.out.println("My inability to response led way to anger though, and I struck out. I didn't know how to fight though, so it was more of a scratch than anything.");
+                System.out.println("My inability to respond led way to anger though, and I struck out. I didn't know how to fight though, so it was more of a scratch than anything.");
                 floFight(decisions,keyPoints,inventory);
             }
 
@@ -651,7 +690,7 @@ public class Main extends PApplet {
 
     }
 
-    public static void brandFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void brandFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         System.out.println(ANSI_BLUE + "\n Brand is attacking you!" +
                 "You lose if you die or he doesn't. You win if he dies. Good luck.  \n This fight is best presented in a choice-based format." + ANSI_RESET);
 
@@ -923,7 +962,7 @@ public class Main extends PApplet {
 
         }
     }
-    public static void brandMeet(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void brandMeet(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         if(keyPoints.get("cleoNecklace")){
             postLunch(decisions,keyPoints,inventory);
             return;
@@ -978,7 +1017,7 @@ public class Main extends PApplet {
         }
 
     }
-    public static void floLunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void floLunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         System.out.println("Looks like it's time to meet Flo, she should by our usual spot on the third floor?" +
                 "\n \n She waves as I approach, the perfume-like smell from before somehow stronger. \n As if sensing my thoughts she asks" +
                  ANSI_YELLOW + "Still appreciating my aroma?" + ANSI_RESET +
@@ -1000,7 +1039,7 @@ public class Main extends PApplet {
         pressEnter();
         postLunch(decisions,keyPoints,inventory);
     }
-    public static void frontFoyer(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter){
+    public static void frontFoyer(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter) throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("I had noticed something off about the foyer, so I decide to head there. \n");
         System.out.println("There, at the front, near the plaque on the wall. There was a small crack that had never been there before. \n");
@@ -1058,7 +1097,7 @@ public class Main extends PApplet {
         }
 
     }
-    public static void basement(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter){
+    public static void basement(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter) throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("I head to my usual spot, the basement. It's nice and quiet, most of the time." +
                 "\n You might spot the odd couple but there are so many winding hallways that their patronage usually isn't of consequence" +
@@ -1140,7 +1179,7 @@ public class Main extends PApplet {
 
     }
 
-    public static void cafeteria(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter){
+    public static void cafeteria(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter) throws IOException {
         System.out.println("I make my way to the cafeteria, a place I rarely frequent. Usually I just go to the basement.");
         System.out.println("It's neither busy nor empty, by this time of the year people have usually found their own spots.");
         System.out.println("But luckily for me, there is a snack service. Nothing ventured, no apples gained.");
@@ -1170,7 +1209,7 @@ public class Main extends PApplet {
 
     }
 
-    public static void lunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory){
+    public static void lunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         int counter;
 
@@ -1218,7 +1257,7 @@ public class Main extends PApplet {
 
 
     }
-    public static void floClassTalk(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory){
+    public static void floClassTalk(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory) throws IOException {
         System.out.println("\"Hey\", I greet Flo, followed by a short groan as I set my bag down. Flo was pretty much my only friend at this school. \n The same was true both ways." +
                 ANSI_YELLOW+ "\" You're talkative today. I saw you and Dodds up there having your fun. \" " +
                 "\n Her lopsided smile betrayed amusement, which her raised eyebrow only supported" + ANSI_RESET +
@@ -1276,7 +1315,7 @@ public class Main extends PApplet {
         return decision;
     }
 
-    public static void doddsConvoLike(ArrayList<String>decisions,HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory){
+    public static void doddsConvoLike(ArrayList<String>decisions,HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory) throws IOException {
 
         System.out.println("I chose to go talk to Dodds first... here we go. \n" +
                 ANSI_YELLOW + "\" I'm surprised! Amongst so many late students you've arrived early. That's a welcome change from the last week as you know.\"" + ANSI_RESET);
@@ -1290,7 +1329,7 @@ public class Main extends PApplet {
                 "\n A. I've been trying to fix my act up Mrs. Dodds, I appreciate your support so much! \n B. Thanks Mrs. Dodds, hopefully the rest come in soon."
                 + ANSI_RESET);
 
-        String input = inputTaker(new String[]{"A","B"});
+        String input = decisionModule(new String[]{"A","B"},keyPoints,inventory,decisions);
         switch (input){
             case "A":
                 System.out.println(ANSI_YELLOW + "\" That's great to hear! You can go take your seat now! But before you go take one of these." + ANSI_RESET);
@@ -1309,7 +1348,7 @@ public class Main extends PApplet {
         floClassTalk(decisions,keyPoints,inventory);
     }
 
-    public static void doddsClassOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory){
+    public static void doddsClassOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory) throws IOException {
 
         System.out.println("ADD DESCRIPTOR OF DODDS AND FLO APPEARANCE");
 
@@ -1354,7 +1393,7 @@ public class Main extends PApplet {
 
     }
 
-    public static void hallwayThree(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory){
+    public static void hallwayThree(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory) throws IOException {
         String choice = null;
         //turnIterator(inventory);
         if (!(keyPoints.get("devMode")) && (decisions.size()>=inventory.get("Decisions"))){
@@ -1381,9 +1420,6 @@ public class Main extends PApplet {
     }
 
     public static String beginningOne (){
-//        PImage img = loadImage("blankPic.png");
-//        image(img,0,0);
-        imageChanger("foyerOnePic");
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Another day of school. Same time, same place. As I enter the front foyer I see my old science teacher. He greets me by my name." +
@@ -1427,12 +1463,6 @@ public class Main extends PApplet {
             }
         }
         return false;
-    }
-    public static void clearEvents(HashMap<String,Boolean> keyPoints){
-        keyPoints.forEach((key,value) -> {
-            keyPoints.put(key,false);
-        }); //iterates through every key and changes it back to false!
-
     }
 
 

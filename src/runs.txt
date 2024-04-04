@@ -1,7 +1,0 @@
-RUNS: 0
-
-Run #:0
-Ending: None
-Decisions: None
-Special Message: None
-
