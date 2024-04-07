@@ -1,4 +1,4 @@
 I make my way to the cafeteria, a place I rarely frequent. Usually I just go to the basement.
 "It's neither busy nor empty, by this time of the year people have usually found their own spots.
 But luckily for me, there is a snack service. Nothing ventured, no apples gained.
-System.out.println(ANSI_YELLOW + "You have gained 1 Apple!"
+ PURPLE"You have gained 1 Apple!"RESET

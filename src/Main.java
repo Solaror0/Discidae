@@ -32,6 +32,8 @@ public class Main {
      */
     public static final String ANSI_BLUE = "\u001B[34m";
 
+    public static Boolean devMode = false;
+
     /**
      * The entry point of application.
      *
@@ -43,7 +45,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         HashMap<String, Integer> inventory = new HashMap<>(); //item inventory of the user
-        inventory.put("Decisions", 0);
         HashMap<String, Boolean> keyPoints = new HashMap<>(); //stores all the major events/booleans in one hashmap so the whole hashmap can be put into a method vs multiple variables
         keyPoints.put("devMode", false);
         ArrayList<String> decisions = new ArrayList<>(); //a stack might work too to see the last made decision(LIFO) --> but if i wanted to access decisions later
@@ -58,13 +59,16 @@ public class Main {
         keyPoints.put("doddsDead", false);
 
 
-        if (sc.nextLine().equals("Dev")) {
-            String[] devDecisions = ((sc.nextLine()).split(" "));
-            Collections.addAll(decisions, devDecisions);
-            keyPoints.put("devMode", true);
-        }
+//        if (sc.nextLine().equals("Dev")) {
+//            String[] devDecisions = ((sc.nextLine()).split(" "));
+//            Collections.addAll(decisions, devDecisions);
+//            devMode = true; //there is a very used method that needs to see devMode
+//            // but its called in methods that don't need to pass keyPoints at ALL
+//            keyPoints.put("devMode", true);
+//        }
+//UNCOMMENT THIS FOR DEV MODE ^^^
 
-
+        printEngine("intro");
         beginningOne();
         beginningTwo(decisions, keyPoints, inventory);
         hallwayThree(decisions, keyPoints, inventory);
@@ -76,7 +80,11 @@ public class Main {
     public static void pressEnter() {
         Scanner sc = new Scanner(System.in);
         System.out.println(ANSI_PURPLE + "\n Press Enter to Continue" + ANSI_RESET);
-        sc.nextLine();
+        if (devMode){
+            System.out.println("\n");
+        } else{sc.nextLine();}
+
+
     }
 
     /**
@@ -123,7 +131,7 @@ public class Main {
      * @param validInputs the valid inputs
      * @return the string
      */
-    public static String inputTaker(String[] validInputs) {
+    public static String inputTaker(String[] validInputs, HashMap<String, Integer> inventory) {
         Scanner sc = new Scanner(System.in);
         String input;
         do {
@@ -131,8 +139,20 @@ public class Main {
             System.out.println("Please enter a valid input." + Arrays.toString(validInputs));
             input = sc.nextLine();
 
+            if (input.equalsIgnoreCase("inventory")){
+
+            }
+
         } while (!(inList(input, validInputs)));
         return input.toUpperCase();
+    }
+    public static void openInv(HashMap<String, Integer> inventory){
+        System.out.println(ANSI_BLUE + "---------------INVENTORY---------------" + ANSI_RESET);
+        String[] keys = inventory.keySet().toArray(new String[0]);
+
+        for(int i =0; i<keys.length; i++){
+            System.out.println("Item: " + keys[i] + "Description: " + inventory.get(keys[i]));
+        }
     }
 
     /**
@@ -169,7 +189,7 @@ public class Main {
             decision = decisions.get(inventory.get("Decisions") - 1);
         } else {
             turnIterator(inventory);
-            decision = (inputTaker(validInputs));
+            decision = (inputTaker(validInputs,inventory));
             decisions.add(decision);
         }
 
@@ -233,7 +253,8 @@ public class Main {
      */
     public static void printEngine(String fileName) throws IOException {
 
-        File file = new File("print/" + fileName);
+        File file = new File("C:\\Users\\junnu\\IdeaProjects\\DiscidaeProcessing\\print\\" + fileName);
+        System.out.println(fileName);
         Scanner printFile = new Scanner(file);
 
         label:
@@ -420,7 +441,7 @@ public class Main {
      * @throws IOException the io exception
      */
     public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
-        int myRoll, atkBoost, atkRoll, dodgeBoost = 0, floRoll, floAtk = 5;
+        int myRoll, atkBoost, atkRoll, dodgeRoll = 5, floRoll, floAtk = 5;
         int floHealth = 25, myHealth = 25;
 
         if (keyPoints.get("holySword")) {
@@ -454,16 +475,16 @@ public class Main {
                 System.out.println("♋︎⬧︎♎︎hea♋︎⬧︎♎︎:" + myHealth);
             } else {
                 if (myHealth > 18) {
-                    System.out.println("I feel.. fine I guess");
+                    System.out.println("My health.. I feel.. fine I guess");
                 } else if (myHealth < 18 && myHealth > 10) {
-                    System.out.println("I don't think it's going to be okay.");
+                    System.out.println("My health.. I don't think it's going to be okay.");
                 } else {
-                    System.out.println("Damnit. God damnit. It hurts.");
+                    System.out.println("My health.. Damnit. God damnit. It hurts.");
                 }
             }
 
             System.out.println(ANSI_PURPLE + "Make your decision. \n A. Attack" + " B. Wait" + ANSI_RESET);
-            choice = inputTaker(new String[]{"A", "B"});
+            choice = inputTaker(new String[]{"A", "B"},inventory);
             switch (choice) {
                 case "A":
                     myRoll = rdm.nextInt(atkRoll) + atkBoost;
@@ -471,12 +492,13 @@ public class Main {
 
                     System.out.println("\n I rush towards Flo and attack! \n");
                     System.out.println(myRoll + " ATTACK " + atkRoll);
+
                     pressEnter();
 
-                    if (myRoll < 2) {
+                    if (myRoll < 4) {
                         System.out.println("Flo attempts to dodge ");
                         floRoll = rdm.nextInt(5);
-                        if (floRoll > myRoll) {
+                        if (floRoll > myRoll-2) { //subtracting 2 from myRoll to get the value without the atkBoost
                             System.out.println(" and she succeeds, taking no damage.");
                         } else {
                             System.out.println(" but it doesn't work, and she takes full damage." + ANSI_PURPLE + "\nFlo took " + myRoll + " damage!" + ANSI_RESET);
@@ -500,8 +522,9 @@ public class Main {
 
                 case "B":
                     System.out.println("I stand back and look at Flo, trying to keep a calm mind. \n I'm looking for weaknesses, slip-ups, anything.");
-                    System.out.println(ANSI_PURPLE + "Your next roll (any) will be out of 12!" + ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "Your next attack roll will be out of 12!" + "\n Dodging gets a +2." + ANSI_RESET);
                     atkRoll = 12;
+                    dodgeRoll=7;
                     break;
 
             }
@@ -520,47 +543,51 @@ public class Main {
                 System.out.println("Flo is attacking!");
                 floRoll = rdm.nextInt(floAtk) + 2;
                 floAtk = 5;
-
+                pressEnter();
 
                 if (keyPoints.get("holySword")) {
                     System.out.println(ANSI_BLUE + "Flo will be attacking you with " + floRoll + " damage!");
                 } else if (keyPoints.get("altarKey")) {
-                    System.out.println(ANSI_BLUE + "Flo wi attyou ll ackingama b♏︎♏︎th " + floRoll + " dge!");
+                    System.out.println(ANSI_BLUE + "Flo wi attyou ll ackingama b︎th " + floRoll + " dge!");
                 }
 
+                System.out.println(ANSI_PURPLE + "Make a decision: \n A. Block \n B. Dodge" + ANSI_RESET);
+                choice = inputTaker(new String[]{"A", "B"},inventory);
+
+                switch (choice) {
+                    case "A":
+                        System.out.println("I decide to block, or attempt it at least. I end up blocking her attack to ");
+                        myRoll = rdm.nextInt(holdRoll * 2) / 2 + atkBoost;
+                        System.out.println(myRoll);
+
+
+                        damage = floRoll - myRoll;
+                        if (damage <= 0) {
+                            damage = 1;
+                        }
+                        System.out.println(damage + " damage.");
+                        myHealth -= damage;
+                        break;
+
+                    case "B":
+                        System.out.println("I attempt to dodge ");
+                        myRoll = rdm.nextInt(dodgeRoll);
+                        dodgeRoll=5;//reset
+                        System.out.println(myRoll + " " + floRoll);
+
+                        if (floRoll - 2 < myRoll) {
+                            System.out.println(" and I succeed, taking no damage.");
+                        } else {
+                            System.out.println(" but it doesn't work, and I take full damage." + ANSI_PURPLE + "\n You took " + floRoll + " damage!" + ANSI_RESET);
+                            myHealth -= floRoll;
+                        }
+                        break;
+                }
 
             }
-            pressEnter();
-            System.out.println(ANSI_PURPLE + "Make a decision: \n A. Block \n B. Dodge" + ANSI_RESET);
-            choice = inputTaker(new String[]{"A", "B"});
-            switch (choice) {
-                case "A":
-                    System.out.println("I decide to block, or attempt it at least. I end up blocking her attack to ");
-                    myRoll = rdm.nextInt(atkRoll * 2) / 2 + atkBoost;
-                    System.out.println(myRoll);
 
-                    damage = floRoll - myRoll;
-                    if (damage <= 0) {
-                        damage = 1;
-                    }
-                    System.out.println(damage + " damage.");
-                    myHealth -= damage;
-                    break;
 
-                case "B":
-                    System.out.println("I attempt to dodge ");
-                    myRoll = rdm.nextInt(atkRoll);
 
-                    System.out.println(myRoll + " " + floRoll);
-
-                    if (floRoll - 2 < myRoll) {
-                        System.out.println(" and I succeed, taking no damage.");
-                    } else {
-                        System.out.println(" but it doesn't work, and I take full damage." + ANSI_PURPLE + "\n You took " + floRoll + " damage!" + ANSI_RESET);
-                        myHealth -= floRoll;
-                    }
-                    break;
-            }
             System.out.println(myHealth + " " + floHealth);
 
         }
@@ -668,7 +695,7 @@ public class Main {
 
         for (int j = 0; j < 3; j++) {
             pressEnter();
-            System.out.println(ANSI_YELLOW + "Riddle number" + (j + 1) + " goes like this:" +
+            System.out.println(ANSI_YELLOW + "Riddle number " + (j + 1) + " goes like this:" +
                     riddles[j]);
             for (int i = 0; i < 3; i++) {
                 System.out.println("What is your " + (i + 1) + "st Answer?");
@@ -686,11 +713,12 @@ public class Main {
         }
 
         printEngine("doddsFightEnd");
+        keyPoints.put("doddsDead",true);
 
         if (keyPoints.get("floKey") && keyPoints.get("brandKey")) { //both flo and brands got got, aka end
             bloodThirsty(decisions);
         }
-        if (keyPoints.get("floKey")) { //only flo got got, have to go brand
+        else if (keyPoints.get("floKey")) { //only flo got got, have to go brand
 
             printEngine("brandDoddsFight");
 
@@ -743,10 +771,12 @@ public class Main {
      */
     public static void postLunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
+        pressEnter();
+
         if (keyPoints.get("brandKey")) {
             printEngine("postLunchBrandFlo");
 
-            String choice = inputTaker(new String[]{"A", "B"});
+            String choice = inputTaker(new String[]{"A", "B"},inventory);
             if (choice.equals("A")) {
                 System.out.println("Sorry, Flo");
                 floFight(decisions, keyPoints, inventory);
@@ -816,6 +846,7 @@ public class Main {
                         printEngine("brandFightFour");
 
                         move = decisionModule(new String[]{"A", "B"}, keyPoints, inventory, decisions);
+
                         switch (move) {
                             case "A":
                                 printEngine("brandFightFive");
@@ -832,7 +863,7 @@ public class Main {
                                     postLunch(decisions, keyPoints, inventory);
                                 } else {
                                     if (keyPoints.get("floKey") && keyPoints.get("doddsDead")) {
-                                        System.out.println("DEMON SLAYER ENDINGING");
+                                        bloodThirsty(decisions);
                                     } else if (keyPoints.get("floKey") && !(keyPoints.get("doddsDead"))) {
 
                                         printEngine("brandFightSeven");
@@ -1278,12 +1309,10 @@ public class Main {
      */
     public static void doddsClassOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
-        System.out.println("ADD DESCRIPTOR OF DODDS AND FLO APPEARANCE");
-
-
         if (keyPoints.get("doddsDislike")) {
-            //WHAT HAPPENS WHEN DODDs DOES DISLIKE YOU
-            System.out.println("Dodds scolds me." + ANSI_YELLOW + " \"Late to class as always. Take your seat\"" + ANSI_RESET);
+
+            System.out.println("Dodds scolds me.. or screeches at me." + ANSI_YELLOW + " \"Late to class as always! Have you ever been on time? \n Take your seat.\"" + ANSI_RESET);
+            pressEnter();
             floClassTalk(decisions, keyPoints, inventory);
 
         } else { //WHAT HAPPENS WHEN DODDS DOESNT DISLIKE YOU
@@ -1334,6 +1363,7 @@ public class Main {
                 break;
 
             case "B":  //right hallway
+                System.out.println(ANSI_PURPLE + "You were late to class as a result. Dodds is not happy with you." + ANSI_RESET);
                 keyPoints.put("doddsDislike", true);
                 doddsClassOne(decisions, keyPoints, inventory);
 
@@ -1369,12 +1399,12 @@ public class Main {
      */
     public static void beginningTwo(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) {
 
-        System.out.println("My attention back to the foyer, I had three directions: the left hallway, right hallway, or exiting the school entirely. \n (ENTER " + ANSI_PURPLE +
+        System.out.println("My attention back to the foyer, I had three directions: the left hallway which led to my first period \n, right hallway, or exiting the school entirely. \n" + ANSI_PURPLE +
                 "\n A. left hallway \n B. right hallway \n C. exit the school \n Enter letter A B or C" + ANSI_RESET);
 
 
         if (!(keyPoints.get("devMode")) && (decisions.size() >= inventory.get("Decisions"))) {
-            decisions.add(inputTaker(new String[]{"A", "B", "C"}));
+            decisions.add(inputTaker(new String[]{"A", "B", "C"},inventory));
         }
         turnIterator(inventory);
     }

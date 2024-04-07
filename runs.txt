@@ -18,3 +18,60 @@ Run #: 4
 Ending: "-"
 Decisions: [C]
 
+Run #: 5
+Ending: "You were killed by a traitor."
+Decisions: [A, A, A, A, A, A, A, B]
+
+Run #: 6
+Ending: "You were killed by a traitor. 
+"
+Decisions: [A, A, A, A, A, A, A, B]
+
+Run #: 7
+Ending: "You were missing the key"
+Decisions: [A, A, A, A, A, A, A, A]
+
+Run #: 8
+Ending: "You were missing the key"
+Decisions: [A, A, A, A, A, A, A, A]
+
+Run #: 9
+Ending: "You were missing the key"
+Decisions: [A, A, A, A, A, A, A, A]
+
+Run #: 10
+Ending: "You were missing the key"
+Decisions: [A, A, A, A, A, A, A, A]
+
+Run #: 10
+Ending: "You stayed true to your humanity."
+Decisions: [A, A, A, A, A, B]
+
+Run #: 10
+Ending: "You couldn't beat Dodd's riddles"
+Decisions: [A, A, A, A, B, A]
+
+Run #: 10
+Ending: "The holy sword delivered justice through you as a medium. Bloodthirsty Ending!"
+Decisions: [A, A, A, A, B, A, C, C, B]
+
+Run #: 10
+Ending: "The holy sword delivered justice through you as a medium. Bloodthirsty Ending!"
+Decisions: [A, A, A, A, B, B, C, C, B, B]
+
+Run #: 10
+Ending: "You were killed by Brand."
+Decisions: [B, B, A, B]
+
+Run #: 10
+Ending: "You were killed by Brand."
+Decisions: [B, B, C, A]
+
+Run #: 10
+Ending: "Dodds Killed You"
+Decisions: [B, A, C]
+
+Run #: 10
+Ending: "You stayed true to your humanity."
+Decisions: [A, A, B, A, C, B]
+

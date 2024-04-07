@@ -5,10 +5,10 @@ YELLOWStill appreciating my aroma?RESET
 pressEnter
  I go to deny, "Hey if it bothers you--" but she cuts me off with a wave and shrugs,"
 
-YELLOWNah it's fine. You know, me and Mrs. Dodds are more alike than you think.ANSI_RESET
+YELLOWNah it's fine. You know, me and Mrs. Dodds are more alike than you think.RESET
 "What did you wanna talk about?" I ask, brushing her previous remark off as classic Flo banter"
 YELLOWI just wanted to talk! Hey, do you believe in tests?"RESET
- pressEnter
+pressEnter
  "Sure? Like school ones?"
  YELLOW No no, like tests in life. Like a challenge or something. RESET
 pressEnter
@@ -17,4 +17,4 @@ YELLOW Some people get more tests than others right? We consider them special.RE
 pressEnter
  "At this point a glint had entered Flo's eyes, which was more than unusual."
 "Sure, the girl was crazy, but lowkey. Not.. whatever this was."
-YELLOW + "I have to go now, but I'll see you soon. Thanks for this."RESET
+YELLOW  "I have to go now, but I'll see you soon. Thanks for this."RESET
