@@ -1,0 +1,25 @@
+PURPLESomething in your inventory is waking upRESET);
+YELLOWNow that I think about it, one of your teachers mentioned you to me.
+Good things of course.  Could we go in my office to talk about something
+related to your school life?RESET
+pressEnter
+
+Huh? I mean I had to go with him. But isn't that too cheap of a reason? Am I in trouble?
+ There is in no way that "one of your teachers mentioned you to me " is a reason");
+pressEnter
+We make our way into his office and he closes the door before sitting down.;
+pressEnter
+YELLOW "Truth be told, you could tell that wasn't the real reason right?"RESET
+I said nothing in response, utterly confused. Just what did I do to deserve this?
+I don't have the energy for something complicated
+ pressEnter
+YELLOWActually it's less about you and more about what you have. You can come out nowRESET
+
+Something in your possesion is moving.
+pressEnter
+Something in your possesion is moving.
+pressEnter
+Something in your possesion is moving.
+pressEnter
+
+

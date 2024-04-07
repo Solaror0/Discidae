@@ -1,0 +1,14 @@
+BLUEInitializing mainframe...RESET);
+pressEnter
+BLUEWelcome to the Holy Sword!
+ BUILD: 1.3011.3
+ Last Edited: 1353-12-31
+
+
+This system was made to assist the user in battle should they be incapable of it.
+The holy sword, experienced in fighting, will execute movements and observation.
+The User will make the appropriate decision.
+Receive Guide: How to Fight for Beginners?"); pressEnter();
+BLUEHow to Fight --> "If fighting a malicious spi--"
+ LOW POWER MODE, Guide OFF RESET
+

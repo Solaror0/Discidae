@@ -2,9 +2,15 @@ Run #: 0
 Ending: ""
 Decisions: []
 
-
-
 Run #: 1
 Ending: "-"
 Decisions: [C]
+
+Run #: 2
+Ending: "-"
+Decisions: [C]
+
+Run #: 3
+Ending: "Dodds Killed You"
+Decisions: [B, A, C]
 

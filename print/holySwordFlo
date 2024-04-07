@@ -1,0 +1,12 @@
+BLUE  You are entering battle. This battle is best presented in turn-based combat.
+You will have two options before Flo attacks, and two options after she attacks.
+
+ Attacking rolls out of 5, the holy sword gives you a 2 bonus.
+ Waiting makes your next attack roll out of 12
+
+ Blocking rolls out of 10, you divide that by 2 and add the holy sword bonus. Whatever you get is subtracted from Flo's attack.
+
+Dodging rolls out of 5. If it's higher than Flo's roll, you dodge. If not, you get hit with full force.
+
+pressEnter
+Good luck.  RESET
