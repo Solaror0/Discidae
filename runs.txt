@@ -14,3 +14,7 @@ Run #: 3
 Ending: "Dodds Killed You"
 Decisions: [B, A, C]
 
+Run #: 4
+Ending: "-"
+Decisions: [C]
+

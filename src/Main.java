@@ -24,13 +24,11 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        HashMap<String,Integer> inventory = new HashMap<String,Integer>(); //item inventory of the user
+        HashMap<String,Integer> inventory = new HashMap<>(); //item inventory of the user
         inventory.put("Decisions",0);
-        HashMap<String,Boolean> keyPoints = new HashMap<String,Boolean>(); //stores all the major events/booleans in one hashmap so the whole hashmap can be put into a method vs multiple variables
+        HashMap<String,Boolean> keyPoints = new HashMap<>(); //stores all the major events/booleans in one hashmap so the whole hashmap can be put into a method vs multiple variables
         keyPoints.put("devMode",false);
         ArrayList<String> decisions = new ArrayList<>(); //a stack might work too to see the last made decision(LIFO) --> but if i wanted to access decisions later
-
-        String name = null;
 
 
         //some boolean initialization
@@ -49,7 +47,7 @@ public class Main {
         }
 
 
-        name = beginningOne();
+        beginningOne();
         beginningTwo(decisions, keyPoints, inventory);
         hallwayThree(decisions, keyPoints, inventory);
     }
@@ -77,14 +75,16 @@ public class Main {
 
         System.out.println(ANSI_BLUE + "The holy sword delivered justice through you as a medium. Bloodthirsty Ending!" + ANSI_RESET);
 
-        System.out.println("  ____   _                    _   _______  _      _             _            ______             _  _               \n" +
-                " |  _ \\ | |                  | | |__   __|| |    (_)           | |          |  ____|           | |(_)              \n" +
-                " | |_) || |  ___    ___    __| |    | |   | |__   _  _ __  ___ | |_  _   _  | |__    _ __    __| | _  _ __    __ _ \n" +
-                " |  _ < | | / _ \\  / _ \\  / _` |    | |   | '_ \\ | || '__|/ __|| __|| | | | |  __|  | '_ \\  / _` || || '_ \\  / _` |\n" +
-                " | |_) || || (_) || (_) || (_| |    | |   | | | || || |   \\__ \\| |_ | |_| | | |____ | | | || (_| || || | | || (_| |\n" +
-                " |____/ |_| \\___/  \\___/  \\__,_|    |_|   |_| |_||_||_|   |___/ \\__| \\__, | |______||_| |_| \\__,_||_||_| |_| \\__, |\n" +
-                "                                                                      __/ |                                   __/ |\n" +
-                "                                                                     |___/                                   |___/ ");
+        System.out.println("""
+                  ____   _                    _   _______  _      _             _            ______             _  _              \s
+                 |  _ \\ | |                  | | |__   __|| |    (_)           | |          |  ____|           | |(_)             \s
+                 | |_) || |  ___    ___    __| |    | |   | |__   _  _ __  ___ | |_  _   _  | |__    _ __    __| | _  _ __    __ _\s
+                 |  _ < | | / _ \\  / _ \\  / _` |    | |   | '_ \\ | || '__|/ __|| __|| | | | |  __|  | '_ \\  / _` || || '_ \\  / _` |
+                 | |_) || || (_) || (_) || (_| |    | |   | | | || || |   \\__ \\| |_ | |_| | | |____ | | | || (_| || || | | || (_| |
+                 |____/ |_| \\___/  \\___/  \\__,_|    |_|   |_| |_||_||_|   |___/ \\__| \\__, | |______||_| |_| \\__,_||_||_| |_| \\__, |
+                                                                                      __/ |                                   __/ |
+                                                                                     |___/                                   |___/ \
+                """);
 
         System.out.println("Your decisions made were: " + decisions.toString());
         runCounter(decisions,"The holy sword delivered justice through you as a medium. Bloodthirsty Ending!");
@@ -94,14 +94,16 @@ public class Main {
 
         System.out.println(ANSI_PURPLE + "You chose to leave the school, prioritizing your own safety. God knows what you left back in there." + ANSI_RESET);
 
-        System.out.println("  ______                     _                     ______             _  _               \n" +
-                " |  ____|                   | |                   |  ____|           | |(_)              \n" +
-                " | |__  _ __  ___   ___   __| |  ___   _ __ ___   | |__    _ __    __| | _  _ __    __ _ \n" +
-                " |  __|| '__|/ _ \\ / _ \\ / _` | / _ \\ | '_ ` _ \\  |  __|  | '_ \\  / _` || || '_ \\  / _` |\n" +
-                " | |   | |  |  __/|  __/| (_| || (_) || | | | | | | |____ | | | || (_| || || | | || (_| |\n" +
-                " |_|   |_|   \\___| \\___| \\__,_| \\___/ |_| |_| |_| |______||_| |_| \\__,_||_||_| |_| \\__, |\n" +
-                "                                                                                    __/ |\n" +
-                "                                                                                   |___/ ");
+        System.out.println("""
+                  ______                     _                     ______             _  _              \s
+                 |  ____|                   | |                   |  ____|           | |(_)             \s
+                 | |__  _ __  ___   ___   __| |  ___   _ __ ___   | |__    _ __    __| | _  _ __    __ _\s
+                 |  __|| '__|/ _ \\ / _ \\ / _` | / _ \\ | '_ ` _ \\  |  __|  | '_ \\  / _` || || '_ \\  / _` |
+                 | |   | |  |  __/|  __/| (_| || (_) || | | | | | | |____ | | | || (_| || || | | || (_| |
+                 |_|   |_|   \\___| \\___| \\__,_| \\___/ |_| |_| |_| |______||_| |_| \\__,_||_||_| |_| \\__, |
+                                                                                                    __/ |
+                                                                                                   |___/ \
+                """);
 
         System.out.println("Your decisions made were: " + decisions.toString());
     }
@@ -111,30 +113,42 @@ public class Main {
         File file = new File("print/"+fileName);
         Scanner printFile = new Scanner(file);
 
+        label:
         while(printFile.hasNextLine()){
             String line = printFile.nextLine();
 
-            if(line.equals("pressEnter")){
-                pressEnter();
-            } else if (line.equals("ENDEND")){
-                break;
-            } else if (line.equals("PLAYERINPUTSTART")){
+            switch (line) {
+                case "pressEnter":
+                    pressEnter();
+                    break;
+                case "ENDEND":
+                    break label;
+                case "PLAYERINPUTSTART":
 
-                while(!(line.equals("PLAYERINPUTEND"))){
-                    line = printFile.nextLine();
-                }
+                    while (!(line.equals("PLAYERINPUTEND"))) {
+                        line = printFile.nextLine();
+                    }
 
-            } else{
-                if(line.contains("PURPLE")){line = line.replace("PURPLE",""); line = ANSI_PURPLE + line;
-                }else if (line.contains("YELLOW")){line = line.replace("YELLOW",""); line = ANSI_YELLOW + line;
-                }else if (line.contains("BLUE")){line = line.replace("BLUE",""); line = ANSI_BLUE + line;}
+                    break;
+                default:
+                    if (line.contains("PURPLE")) {
+                        line = line.replace("PURPLE", "");
+                        line = ANSI_PURPLE + line;
+                    } else if (line.contains("YELLOW")) {
+                        line = line.replace("YELLOW", "");
+                        line = ANSI_YELLOW + line;
+                    } else if (line.contains("BLUE")) {
+                        line = line.replace("BLUE", "");
+                        line = ANSI_BLUE + line;
+                    }
 
-                if(line.contains("RESET")){
-                    line = line+ANSI_RESET;
-                    line = line.replace("RESET","");
-                }
-                System.out.println(line);
+                    if (line.contains("RESET")) {
+                        line = line + ANSI_RESET;
+                        line = line.replace("RESET", "");
+                    }
+                    System.out.println(line);
 
+                    break;
             }
         }
     }
@@ -192,7 +206,7 @@ public class Main {
     public static void postTraitorArc(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         System.out.println("After a blur. It was over. Now, I had to make my way to the English.. classroom? Back to Flo. \n");
-        String choice = null;
+        String choice;
 
         if(keyPoints.get("altarKey")){
             printEngine("altarKeyTraitor");
@@ -245,7 +259,7 @@ public class Main {
 
     }
     public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
-        int myRoll = 0, atkBoost = 0, atkRoll = 0, dodgeBoost =0, floRoll = 0, floAtk = 5;
+        int myRoll, atkBoost, atkRoll, dodgeBoost =0, floRoll, floAtk = 5;
         int floHealth = 25, myHealth = 25;
 
         if (keyPoints.get("holySword")){
@@ -269,16 +283,16 @@ public class Main {
             atkRoll = 4;
         }
 
-        String choice = null;
+        String choice;
         Random rdm = new Random();
-        int damage = 0, holdRoll = atkRoll;
+        int damage, holdRoll = atkRoll;
 
         while(myHealth>0 && floHealth>0){
 
             if(keyPoints.get("holySword")){
                 System.out.println(ANSI_BLUE + "Your health is: "  + myHealth + "\n Flo's health is: " + floHealth + "\n Make your next move.");
             } else if(keyPoints.get("altarKey")){
-                System.out.println( "♋\uFE0E⬧\uFE0E♎\uFE0Ehea♋\uFE0E⬧\uFE0E♎\uFE0E:" + myHealth);
+                System.out.println( "♋︎⬧︎♎︎hea♋︎⬧︎♎︎:" + myHealth);
             } else{
                 if(myHealth>18){
                     System.out.println("I feel.. fine I guess");
@@ -348,7 +362,7 @@ public class Main {
                 if (keyPoints.get("holySword")){
                     System.out.println(ANSI_BLUE + "Flo will be attacking you with " + floRoll + " damage!");
                 } else if (keyPoints.get("altarKey")){
-                    System.out.println(ANSI_BLUE + "Flo wi attyou ll ackingama b♏\uFE0E♏\uFE0Eth " + floRoll + " dge!");
+                    System.out.println(ANSI_BLUE + "Flo wi attyou ll ackingama b♏︎♏︎th " + floRoll + " dge!");
                 }
 
 
@@ -387,10 +401,12 @@ public class Main {
             System.out.println(myHealth + " " + floHealth);
 
         }
+        pressEnter();
         if(floHealth <= 0){
-            pressEnter();
-            System.out.println("Somehow. Somehow Flo lay in front of me, fading away into dust. \n There were no last words, or even words during the fight. " +
-                    "\n The only sound in the unnaturally vacant hallway were my gasps for breath.");
+            System.out.println("""
+                    Somehow. Somehow Flo lay in front of me, fading away into dust.\s
+                     There were no last words, or even words during the fight.\s
+                     The only sound in the unnaturally vacant hallway were my gasps for breath.""");
 
             if(!(keyPoints.get("holySword"))){
                 System.out.println(ANSI_PURPLE + "In recognition of your achievement without it, the Holy Sword has come to you." + ANSI_RESET);
@@ -449,7 +465,6 @@ public class Main {
             }
 
         } else {
-            pressEnter();
             if(keyPoints.get("floLike")){
                 printEngine("floLikeFloFight");
                 String choose = decisionModule(new String[]{"A","B"},keyPoints,inventory,decisions);
@@ -952,7 +967,7 @@ public class Main {
     }
 
     public static String decisionModule(String[]validInputs, HashMap<String,Boolean> keyPoints, HashMap<String,Integer> inventory, ArrayList<String> decisions){
-        String decision = null;
+        String decision;
 
         System.out.println(inventory.get("Decisions") + " " + decisions.size());
         if (keyPoints.get("devMode") && (decisions.size()>inventory.get("Decisions"))){
@@ -1007,7 +1022,7 @@ public class Main {
             System.out.println(ANSI_RESET);
             printEngine("doddsConvoPieceTwo");
 
-            String talkDecision = null;
+            String talkDecision;
 
             talkDecision = decisionModule(new String[]{"A","B"},keyPoints,inventory,decisions);
 
@@ -1027,7 +1042,7 @@ public class Main {
     }
 
     public static void hallwayThree(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints,HashMap<String, Integer> inventory) throws IOException {
-        String choice = null;
+        String choice;
         //turnIterator(inventory);
         if (!(keyPoints.get("devMode")) && (decisions.size()>=inventory.get("Decisions"))){
             choice = (decisions.get(decisions.size()-1)).toUpperCase();
@@ -1052,7 +1067,7 @@ public class Main {
         }
     }
 
-    public static String beginningOne (){
+    public static void beginningOne (){
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Another day of school. Same time, same place. As I enter the front foyer I see my old science teacher. He greets me by my name." +
@@ -1060,7 +1075,7 @@ public class Main {
 
         String name = sc.nextLine();
         System.out.println(ANSI_YELLOW + "Good morning " + name + "!" + ANSI_RESET + " He was already down the hallway by the end of his sentence, late to his class once again. ");
-        return name;
+
 
     }
 
