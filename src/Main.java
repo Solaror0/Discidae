@@ -8,15 +8,36 @@ Last Edited -
 import java.util.*;
 import java.io.*;
 
+/**
+ * The type Main.
+ */
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    //COLOUR VARS DECLARATION
+    /**
+     * The constant ANSI_RESET.
+     */
+//COLOUR VARS DECLARATION
     public static final String ANSI_RESET = "\u001B[0m";
+    /**
+     * The constant ANSI_YELLOW.
+     */
     public static final String ANSI_YELLOW = "\u001B[33m";
+    /**
+     * The constant ANSI_PURPLE.
+     */
     public static final String ANSI_PURPLE = "\u001B[35m";
+    /**
+     * The constant ANSI_BLUE.
+     */
     public static final String ANSI_BLUE = "\u001B[34m";
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws IOException the io exception
+     */
     public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
@@ -49,28 +70,118 @@ public class Main {
         hallwayThree(decisions, keyPoints, inventory);
     }
 
+    /**
+     * Press enter.
+     */
     public static void pressEnter() {
         Scanner sc = new Scanner(System.in);
         System.out.println(ANSI_PURPLE + "\n Press Enter to Continue" + ANSI_RESET);
         sc.nextLine();
     }
 
+    /**
+     * Death screen.
+     *
+     * @param causeOfDeath the cause of death
+     * @param turns        the turns
+     * @param decisions    the decisions
+     * @throws IOException the io exception
+     */
     public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions) throws IOException {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns + " turns.");
         System.out.println("Your decisions made were: " + decisions.toString());
         runCounter(decisions, causeOfDeath);
     }
 
+    /**
+     * Death screen.
+     *
+     * @param causeOfDeath   the cause of death
+     * @param turns          the turns
+     * @param decisions      the decisions
+     * @param specialMessage the special message
+     * @throws IOException the io exception
+     */
     public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions, String specialMessage) throws IOException {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns + " turns.");
         System.out.println("Your decisions made were: " + decisions.toString());
         runCounter(decisions, causeOfDeath);
     }
 
+    /**
+     * Turn iterator.
+     *
+     * @param inventory the inventory
+     */
     public static void turnIterator(HashMap<String, Integer> inventory) {
         inventory.put("Decisions", inventory.get("Decisions") + 1);
     }
 
+    /**
+     * Input taker string.
+     *
+     * @param validInputs the valid inputs
+     * @return the string
+     */
+    public static String inputTaker(String[] validInputs) {
+        Scanner sc = new Scanner(System.in);
+        String input;
+        do {
+
+            System.out.println("Please enter a valid input." + Arrays.toString(validInputs));
+            input = sc.nextLine();
+
+        } while (!(inList(input, validInputs)));
+        return input.toUpperCase();
+    }
+
+    /**
+     * In list boolean.
+     *
+     * @param input the input
+     * @param list  the list
+     * @return the boolean
+     */
+    public static Boolean inList(String input, String[] list) {
+        for (String element : list) {
+            if (element.equals(input.toLowerCase()) || element.equals(input.toUpperCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Decision module string.
+     *
+     * @param validInputs the valid inputs
+     * @param keyPoints   the key points
+     * @param inventory   the inventory
+     * @param decisions   the decisions
+     * @return the string
+     */
+    public static String decisionModule(String[] validInputs, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, ArrayList<String> decisions) {
+        String decision;
+
+        System.out.println(inventory.get("Decisions") + " " + decisions.size());
+        if (keyPoints.get("devMode") && (decisions.size() > inventory.get("Decisions"))) {
+            turnIterator(inventory);
+            decision = decisions.get(inventory.get("Decisions") - 1);
+        } else {
+            turnIterator(inventory);
+            decision = (inputTaker(validInputs));
+            decisions.add(decision);
+        }
+
+        return decision;
+    }
+
+    /**
+     * Bloodthirsty.
+     *
+     * @param decisions the decisions
+     * @throws IOException the io exception
+     */
     public static void bloodThirsty(ArrayList<String> decisions) throws IOException {
 
         pressEnter();
@@ -90,6 +201,11 @@ public class Main {
         runCounter(decisions, "The holy sword delivered justice through you as a medium. Bloodthirsty Ending!");
     }
 
+    /**
+     * Leave school.
+     *
+     * @param decisions the decisions
+     */
     public static void leaveSchool(ArrayList<String> decisions) {
         pressEnter();
 
@@ -109,6 +225,12 @@ public class Main {
         System.out.println("Your decisions made were: " + decisions.toString());
     }
 
+    /**
+     * Print engine.
+     *
+     * @param fileName the file name
+     * @throws IOException the io exception
+     */
     public static void printEngine(String fileName) throws IOException {
 
         File file = new File("print/" + fileName);
@@ -154,6 +276,13 @@ public class Main {
         }
     }
 
+    /**
+     * Run counter.
+     *
+     * @param decisions the decisions
+     * @param ending    the ending
+     * @throws IOException the io exception
+     */
     public static void runCounter(ArrayList<String> decisions, String ending) throws IOException {
         //first opening the file as READ to get the run number
         File temp = new File("runs.txt");
@@ -174,6 +303,12 @@ public class Main {
         runs.close();
     }
 
+    /**
+     * Traitor ending.
+     *
+     * @param decisions the decisions
+     * @throws IOException the io exception
+     */
     public static void traitorEnding(ArrayList<String> decisions) throws IOException {
         printEngine("traitorEnding");
         runCounter(decisions, "You were killed by a traitor.");
@@ -181,6 +316,12 @@ public class Main {
         printEngine("traitorScreen");
     }
 
+    /**
+     * Kill stealer ending.
+     *
+     * @param decisions the decisions
+     * @throws IOException the io exception
+     */
     public static void killStealerEnding(ArrayList<String> decisions) throws IOException {
         printEngine("KilLStealerEnding");
         runCounter(decisions, "Is this enough?");
@@ -188,6 +329,12 @@ public class Main {
         printEngine("killStealerScreen");
     }
 
+    /**
+     * Incomplete traitor ending.
+     *
+     * @param decisions the decisions
+     * @throws IOException the io exception
+     */
     public static void incompleteTraitorEnding(ArrayList<String> decisions) throws IOException {
         printEngine("incompTraitorEnding");
         runCounter(decisions, "You were missing the key");
@@ -196,6 +343,14 @@ public class Main {
     }
 
 
+    /**
+     * Post traitor arc.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void postTraitorArc(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         System.out.println("After a blur. It was over. Now, I had to make my way to the English.. classroom? Back to Flo. \n");
         String choice;
@@ -229,6 +384,14 @@ public class Main {
 
     }
 
+    /**
+     * Traitor arc.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void traitorArc(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         printEngine("traitorArc");
         String choice = decisionModule(new String[]{"A", "B", "C"}, keyPoints, inventory, decisions);
@@ -248,6 +411,14 @@ public class Main {
 
     }
 
+    /**
+     * Flo fight.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         int myRoll, atkBoost, atkRoll, dodgeBoost = 0, floRoll, floAtk = 5;
         int floHealth = 25, myHealth = 25;
@@ -474,6 +645,14 @@ public class Main {
         }
     }
 
+    /**
+     * Dodds fight.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void doddsFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         pressEnter();
         System.out.println(ANSI_BLUE + "Dodd's fight format is the most simple, but also the most annoying. \n " +
@@ -527,6 +706,14 @@ public class Main {
         }
     }
 
+    /**
+     * Dodds talk one.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void doddsTalkOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         printEngine("doddsTalkOne");
@@ -546,6 +733,14 @@ public class Main {
         }
     }
 
+    /**
+     * Post lunch.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void postLunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         if (keyPoints.get("brandKey")) {
@@ -585,6 +780,14 @@ public class Main {
 
     }
 
+    /**
+     * Brand fight.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void brandFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         printEngine("brandfightOne");
         String move = decisionModule(new String[]{"A", "B", "C"}, keyPoints, inventory, decisions);
@@ -729,6 +932,12 @@ public class Main {
 
     }
 
+    /**
+     * Fight intro.
+     *
+     * @param keyPoints the key points
+     * @throws IOException the io exception
+     */
     public static void fightIntro(HashMap<String, Boolean> keyPoints) throws IOException {
 
         if (keyPoints.get("holySword")) {
@@ -739,6 +948,14 @@ public class Main {
 
     }
 
+    /**
+     * Brand meet.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void brandMeet(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         if (keyPoints.get("cleoNecklace")) {
@@ -772,11 +989,28 @@ public class Main {
 
     }
 
+    /**
+     * Flo lunch.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void floLunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         printEngine("floLunch");
         postLunch(decisions, keyPoints, inventory);
     }
 
+    /**
+     * Front foyer.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @param counter   the counter
+     * @throws IOException the io exception
+     */
     public static void frontFoyer(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter) throws IOException {
         Scanner sc = new Scanner(System.in);
         String answer = null;
@@ -827,6 +1061,15 @@ public class Main {
 
     }
 
+    /**
+     * Basement.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @param counter   the counter
+     * @throws IOException the io exception
+     */
     public static void basement(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter) throws IOException {
         Scanner sc = new Scanner(System.in);
         printEngine("basement");
@@ -880,6 +1123,15 @@ public class Main {
 
     }
 
+    /**
+     * Cafeteria.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @param counter   the counter
+     * @throws IOException the io exception
+     */
     public static void cafeteria(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, int counter) throws IOException {
         printEngine("cafeteria");
         inventory.put("apple", 1);
@@ -909,6 +1161,14 @@ public class Main {
 
     }
 
+    /**
+     * Lunch.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void lunch(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         int counter;
@@ -945,6 +1205,14 @@ public class Main {
         }
     }
 
+    /**
+     * Flo class talk.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void floClassTalk(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         printEngine("floClassTalk");
 
@@ -965,26 +1233,16 @@ public class Main {
         System.out.println("In any case, she stopped paying attention in class and hopped on her phone. Something about managing the school's confession account.");
 
         lunch(decisions, keyPoints, inventory);
-
-
     }
 
-    public static String decisionModule(String[] validInputs, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, ArrayList<String> decisions) {
-        String decision;
-
-        System.out.println(inventory.get("Decisions") + " " + decisions.size());
-        if (keyPoints.get("devMode") && (decisions.size() > inventory.get("Decisions"))) {
-            turnIterator(inventory);
-            decision = decisions.get(inventory.get("Decisions") - 1);
-        } else {
-            turnIterator(inventory);
-            decision = (inputTaker(validInputs));
-            decisions.add(decision);
-        }
-
-        return decision;
-    }
-
+    /**
+     * Dodds convo like.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void doddsConvoLike(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
 
@@ -1010,6 +1268,14 @@ public class Main {
         floClassTalk(decisions, keyPoints, inventory);
     }
 
+    /**
+     * Dodds class one.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void doddsClassOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
 
         System.out.println("ADD DESCRIPTOR OF DODDS AND FLO APPEARANCE");
@@ -1043,6 +1309,14 @@ public class Main {
 
     }
 
+    /**
+     * Hallway three.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     * @throws IOException the io exception
+     */
     public static void hallwayThree(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         String choice;
         //turnIterator(inventory);
@@ -1071,6 +1345,9 @@ public class Main {
         }
     }
 
+    /**
+     * Beginning one.
+     */
     public static void beginningOne() {
 
         Scanner sc = new Scanner(System.in);
@@ -1083,6 +1360,13 @@ public class Main {
 
     }
 
+    /**
+     * Beginning two.
+     *
+     * @param decisions the decisions
+     * @param keyPoints the key points
+     * @param inventory the inventory
+     */
     public static void beginningTwo(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) {
 
         System.out.println("My attention back to the foyer, I had three directions: the left hallway, right hallway, or exiting the school entirely. \n (ENTER " + ANSI_PURPLE +
@@ -1095,25 +1379,5 @@ public class Main {
         turnIterator(inventory);
     }
 
-    public static String inputTaker(String[] validInputs) {
-        Scanner sc = new Scanner(System.in);
-        String input;
-        do {
 
-            System.out.println("Please enter a valid input." + Arrays.toString(validInputs));
-            input = sc.nextLine();
-
-        } while (!(inList(input, validInputs)));
-        return input.toUpperCase();
-
-    }
-
-    public static Boolean inList(String input, String[] list) {
-        for (String element : list) {
-            if (element.equals(input.toLowerCase()) || element.equals(input.toUpperCase())) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
