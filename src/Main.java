@@ -44,7 +44,9 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        HashMap<String, Integer> inventory = new HashMap<>(); //item inventory of the user
+        HashMap<String, Integer> inventory = new HashMap<>(); //item inventory of the user, also a convenient way to store decision count
+        inventory.put("Decisions", 0);
+
         HashMap<String, Boolean> keyPoints = new HashMap<>(); //stores all the major events/booleans in one hashmap so the whole hashmap can be put into a method vs multiple variables
         keyPoints.put("devMode", false);
         ArrayList<String> decisions = new ArrayList<>(); //a stack might work too to see the last made decision(LIFO) --> but if i wanted to access decisions later
@@ -78,6 +80,7 @@ public class Main {
      * Press enter.
      */
     public static void pressEnter() {
+
         Scanner sc = new Scanner(System.in);
         System.out.println(ANSI_PURPLE + "\n Press Enter to Continue" + ANSI_RESET);
         if (devMode){
@@ -140,19 +143,21 @@ public class Main {
             input = sc.nextLine();
 
             if (input.equalsIgnoreCase("inventory")){
-
+                openInv(inventory);
             }
 
         } while (!(inList(input, validInputs)));
         return input.toUpperCase();
     }
     public static void openInv(HashMap<String, Integer> inventory){
-        System.out.println(ANSI_BLUE + "---------------INVENTORY---------------" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "\n---------------INVENTORY---------------" + ANSI_RESET);
         String[] keys = inventory.keySet().toArray(new String[0]);
 
         for(int i =0; i<keys.length; i++){
-            System.out.println("Item: " + keys[i] + "Description: " + inventory.get(keys[i]));
+            System.out.println("Item: " + keys[i] + "         Count: " + inventory.get(keys[i]));
         }
+        System.out.println(ANSI_BLUE + "---------------INVENTORY---------------" + ANSI_RESET);
+        pressEnter();
     }
 
     /**
@@ -254,7 +259,8 @@ public class Main {
     public static void printEngine(String fileName) throws IOException {
 
         File file = new File("C:\\Users\\junnu\\IdeaProjects\\DiscidaeProcessing\\print\\" + fileName);
-        System.out.println(fileName);
+        // System.out.println(fileName);
+        System.out.println(ANSI_PURPLE + "~~~~~~~~~~~~===============================~~~~~~~~~~~~" + ANSI_RESET);
         Scanner printFile = new Scanner(file);
 
         label:
@@ -295,6 +301,7 @@ public class Main {
                     break;
             }
         }
+        System.out.println(ANSI_PURPLE + "~~~~~~~~~~~~===============================~~~~~~~~~~~~" + ANSI_RESET);
     }
 
     /**
@@ -381,6 +388,9 @@ public class Main {
             choice = decisionModule(new String[]{"A", "B"}, keyPoints, inventory, decisions);
             switch (choice) {
                 case "A":
+                    System.out.println(ANSI_PURPLE + "Altar Apple acquired!");
+                    inventory.put("Altar Apple",1);
+
                     killStealerEnding(decisions);
                     break;
                 case "B":
@@ -779,9 +789,13 @@ public class Main {
             String choice = inputTaker(new String[]{"A", "B"},inventory);
             if (choice.equals("A")) {
                 System.out.println("Sorry, Flo");
+
                 floFight(decisions, keyPoints, inventory);
 
             } else {
+                System.out.println(ANSI_PURPLE + "Flo Apple acquired!");
+                inventory.put("Flo Apple",1);
+
                 System.out.println(ANSI_YELLOW + "\n You might have realized by now. You got Brand.. right? I can feel the stench radiating off of you. \n" +
                         " That guy was tough. Flo gave me a weak smile. I'm sorry about this, but if you wield that thing.." + ANSI_RESET);
                 System.out.println("The Thing in question had already appeared in my hand. I found myself struggling against its will, as I felt control over my body slipping.");
@@ -917,6 +931,9 @@ public class Main {
                 switch (move) {
                     case "A":
                         System.out.println("I dodge to my right, and in doing so, allow the knife to plunge into my left eye.");
+
+                        System.out.println(ANSI_PURPLE + "Brand Apple acquired!");
+                        inventory.put("Brand Apple",1);
 
                         deathScreen("Knife, eye, brain!", decisions.size(), decisions, "He's attacking with his left? Dodging right means moving away from the right arm.");
 
@@ -1227,6 +1244,8 @@ public class Main {
             case "B":
                 System.out.println("Basement");
                 basement(decisions, keyPoints, inventory, counter);
+                System.out.println(ANSI_PURPLE + "Sword Apple acquired!");
+                inventory.put("Sword Apple",1);
                 break;
 
             case "C":
@@ -1252,12 +1271,12 @@ public class Main {
 
         switch (meetFlo) {
             case "A":
-                System.out.println(ANSI_YELLOW + "You'll meet Flo in the second of lunch. Flo is happy with you." + ANSI_RESET);
+                System.out.println(ANSI_PURPLE+ "You'll meet Flo in the second of lunch. Flo is happy with you." + ANSI_RESET);
                 keyPoints.put("floLike", true);
                 break;
 
             case "B":
-                System.out.println(ANSI_YELLOW + "You wont meet Flo at lunch. Flo is not happy with you." + ANSI_RESET);
+                System.out.println(ANSI_PURPLE + "You wont meet Flo at lunch. Flo is not happy with you." + ANSI_RESET);
                 keyPoints.put("floLike", false);
                 break;
         }
@@ -1284,8 +1303,8 @@ public class Main {
         switch (input) {
             case "A":
                 System.out.println(ANSI_YELLOW + "\" That's great to hear! You can go take your seat now! But before you go take one of these." + ANSI_RESET);
-                System.out.println(ANSI_YELLOW + "Watermelon Jolly Rancher acquired from Mrs. Dodds" + ANSI_RESET);
-                inventory.put("Watermelon Jolly Rancher", 1);
+                System.out.println(ANSI_PURPLE + "Dodd's Apple acquired from Mrs. Dodds" + ANSI_RESET);
+                inventory.put("Dodd's Apple", 1);
                 System.out.println("As always, conversation with her feels stilted and unnatural. Anyways, I take my prize candy and go to my seat beside Flo.");
                 break;
 

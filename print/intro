@@ -13,6 +13,11 @@ pressEnter
 This game asks you to make various decisions.
 Such as choosing from A, B, or C. It only accepts the letter as a response.
 The same endings in this game can be reached in different ways or orders!
+
+Check the inventory at any decision by typing inventory.
+There are collectible apples around the game, find them all?
+-- You won't be able to find them all in every run.
+
 Please read the README for resources.
 
 pressEnter
