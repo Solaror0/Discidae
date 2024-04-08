@@ -77,21 +77,19 @@ public class Main {
     }
 
     /**
-     * Press enter.
+     * Asks the user to press enter to continue.
      */
     public static void pressEnter() {
 
         Scanner sc = new Scanner(System.in);
         System.out.println(ANSI_PURPLE + "\n Press Enter to Continue" + ANSI_RESET);
         if (devMode){
-            System.out.println("\n");
+            System.out.println("\n"); //skips past if dev mode is on
         } else{sc.nextLine();}
-
-
     }
 
     /**
-     * Death screen.
+     * Shows the deathscreen
      *
      * @param causeOfDeath the cause of death
      * @param turns        the turns
@@ -101,38 +99,28 @@ public class Main {
     public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions) throws IOException {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns + " turns.");
         System.out.println("Your decisions made were: " + decisions.toString());
-        runCounter(decisions, causeOfDeath);
-    }
-
-    /**
-     * Death screen.
-     *
-     * @param causeOfDeath   the cause of death
-     * @param turns          the turns
-     * @param decisions      the decisions
-     * @param specialMessage the special message
-     * @throws IOException the io exception
-     */
-    public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions, String specialMessage) throws IOException {
+        runCounter(decisions, causeOfDeath); //prints out death + shows decisions to player
+    } public static void deathScreen(String causeOfDeath, int turns, ArrayList<String> decisions, String specialMessage) throws IOException {
         System.out.println("You Died. Cause of death: " + causeOfDeath + "." + "You made it " + turns + " turns.");
+        System.out.println(specialMessage); //overloaded with special message
         System.out.println("Your decisions made were: " + decisions.toString());
         runCounter(decisions, causeOfDeath);
     }
 
     /**
-     * Turn iterator.
+     * Adds to the turn count to keep track.
      *
-     * @param inventory the inventory
+     * @param inventory the inventory Map
      */
     public static void turnIterator(HashMap<String, Integer> inventory) {
         inventory.put("Decisions", inventory.get("Decisions") + 1);
-    }
+    } //increments to the number of decisions made by the player
 
     /**
      * Input taker string.
      *
-     * @param validInputs the valid inputs
-     * @return the string
+     * @param validInputs The valid inputs taken
+     * @return The input from the user
      */
     public static String inputTaker(String[] validInputs, HashMap<String, Integer> inventory) {
         Scanner sc = new Scanner(System.in);
@@ -140,35 +128,37 @@ public class Main {
         do {
 
             System.out.println("Please enter a valid input." + Arrays.toString(validInputs));
-            input = sc.nextLine();
+            input = sc.nextLine(); //asks user for input and shows the valid inputs
 
             if (input.equalsIgnoreCase("inventory")){
-                openInv(inventory);
+                openInv(inventory); //opens inventory and comes back to loop if the user asks
             }
 
         } while (!(inList(input, validInputs)));
         return input.toUpperCase();
+
     }
+
     public static void openInv(HashMap<String, Integer> inventory){
         System.out.println(ANSI_BLUE + "\n---------------INVENTORY---------------" + ANSI_RESET);
-        String[] keys = inventory.keySet().toArray(new String[0]);
+        String[] keys = inventory.keySet().toArray(new String[0]); //converts keys into array
 
         for(int i =0; i<keys.length; i++){
-            System.out.println("Item: " + keys[i] + "         Count: " + inventory.get(keys[i]));
+            System.out.println("Item: " + keys[i] + "         Count: " + inventory.get(keys[i])); //iterates through each key and prints + accesses the values at the same time
         }
         System.out.println(ANSI_BLUE + "---------------INVENTORY---------------" + ANSI_RESET);
         pressEnter();
     }
 
     /**
-     * In list boolean.
+     * Checks if users input is in the valid inputs list
      *
      * @param input the input
      * @param list  the list
      * @return the boolean
      */
     public static Boolean inList(String input, String[] list) {
-        for (String element : list) {
+        for (String element : list) { //goes through the valid input list and the input given until something is found, else return false
             if (element.equals(input.toLowerCase()) || element.equals(input.toUpperCase())) {
                 return true;
             }
@@ -177,7 +167,7 @@ public class Main {
     }
 
     /**
-     * Decision module string.
+     * Checks for dev mode being active <br> Also checks if theres decisions left in the string given.
      *
      * @param validInputs the valid inputs
      * @param keyPoints   the key points
@@ -188,12 +178,13 @@ public class Main {
     public static String decisionModule(String[] validInputs, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory, ArrayList<String> decisions) {
         String decision;
 
-        System.out.println(inventory.get("Decisions") + " " + decisions.size());
-        if (keyPoints.get("devMode") && (decisions.size() > inventory.get("Decisions"))) {
-            turnIterator(inventory);
-            decision = decisions.get(inventory.get("Decisions") - 1);
+       // System.out.println(inventory.get("Decisions") + " " + decisions.size());  FOR DEBUGGING
+
+        if (keyPoints.get("devMode") && (decisions.size() > inventory.get("Decisions"))) { //checks if devmode is on, and if decisions are left in devmode. E.g if the game is on decision #4 but was only given "A A B" then it won't continue dev mode
+            turnIterator(inventory); //adds to turn iterator like the game normally would,
+            decision = decisions.get(inventory.get("Decisions") - 1); //and accesses index the game would normally be at
         } else {
-            turnIterator(inventory);
+            turnIterator(inventory); //otherwise, it normally runs whee it increments decisions and takes input
             decision = (inputTaker(validInputs,inventory));
             decisions.add(decision);
         }
@@ -202,7 +193,7 @@ public class Main {
     }
 
     /**
-     * Bloodthirsty.
+     * Bloodthirsty ending print!
      *
      * @param decisions the decisions
      * @throws IOException the io exception
@@ -251,7 +242,7 @@ public class Main {
     }
 
     /**
-     * Print engine.
+     * Print engine, prints the file given.
      *
      * @param fileName the file name
      * @throws IOException the io exception
@@ -259,28 +250,20 @@ public class Main {
     public static void printEngine(String fileName) throws IOException {
 
         File file = new File("C:\\Users\\junnu\\IdeaProjects\\DiscidaeProcessing\\print\\" + fileName);
-        // System.out.println(fileName);
-        System.out.println(ANSI_PURPLE + "~~~~~~~~~~~~===============================~~~~~~~~~~~~" + ANSI_RESET);
-        Scanner printFile = new Scanner(file);
+        Scanner printFile = new Scanner(file); //initializing file objects
 
-        label:
+        // System.out.println(fileName); FOR DEBUGGING
+        System.out.println(ANSI_PURPLE + "~~~~~~~~~~~~===============================~~~~~~~~~~~~" + ANSI_RESET);
+
         while (printFile.hasNextLine()) {
-            String line = printFile.nextLine();
+            String line = printFile.nextLine(); //iterates through each line in the file
 
             switch (line) {
-                case "pressEnter":
+                case "pressEnter": //if the line is printEnter it runs the print enter function
                     pressEnter();
                     break;
-                case "ENDEND":
-                    break label;
-                case "PLAYERINPUTSTART":
 
-                    while (!(line.equals("PLAYERINPUTEND"))) {
-                        line = printFile.nextLine();
-                    }
-
-                    break;
-                default:
+                default: //adds different colour modifiers to the printed line depending on what each line contains.
                     if (line.contains("PURPLE")) {
                         line = line.replace("PURPLE", "");
                         line = ANSI_PURPLE + line;
@@ -292,7 +275,7 @@ public class Main {
                         line = ANSI_BLUE + line;
                     }
 
-                    if (line.contains("RESET")) {
+                    if (line.contains("RESET")) { //after every colour declaration there must be a "RESET" at some point so the colour goes back to default
                         line = line + ANSI_RESET;
                         line = line.replace("RESET", "");
                     }
@@ -326,8 +309,8 @@ public class Main {
         runsRead.close();
 
         FileWriter runFile = new FileWriter("runs.txt", true);
-        PrintWriter runs = new PrintWriter(runFile);
-        runs.println("Run #: " + runNum + "\nEnding: \"" + ending + "\"\n" + "Decisions: " + decisions + "\n");
+        PrintWriter runs = new PrintWriter(runFile); //opens the file in append mode
+        runs.println("Run #: " + runNum + "\nEnding: \"" + ending + "\"\n" + "Decisions: " + decisions + "\n"); //prints the log into it
         runs.close();
     }
 
@@ -386,7 +369,7 @@ public class Main {
         if (keyPoints.get("altarKey")) {
             printEngine("altarKeyTraitor");
             choice = decisionModule(new String[]{"A", "B"}, keyPoints, inventory, decisions);
-            switch (choice) {
+            switch (choice) { //the user can choose to either go to altar orrr not
                 case "A":
                     System.out.println(ANSI_PURPLE + "Altar Apple acquired!");
                     inventory.put("Altar Apple",1);
@@ -402,7 +385,7 @@ public class Main {
         } else {
             printEngine("traitorChoice");
             choice = decisionModule(new String[]{"A", "B"}, keyPoints, inventory, decisions);
-            switch (choice) {
+            switch (choice) { //the user can choose to run or not
                 case "A":
                     incompleteTraitorEnding(decisions);
                     break;
@@ -452,7 +435,7 @@ public class Main {
      */
     public static void floFight(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
         int myRoll, atkBoost, atkRoll, dodgeRoll = 5, floRoll, floAtk = 5;
-        int floHealth = 25, myHealth = 25;
+        int floHealth = 25, myHealth = 25; //variable initialization
 
         if (keyPoints.get("holySword")) {
             printEngine("holySwordFlo");
@@ -472,6 +455,7 @@ public class Main {
             atkBoost = -1;
             atkRoll = 4;
         }
+        //Depending on what the player has, their stats will be adjusted accordingly. Fists is by far the most difficult.
 
         String choice;
         Random rdm = new Random();
@@ -491,24 +475,25 @@ public class Main {
                 } else {
                     System.out.println("My health.. Damnit. God damnit. It hurts.");
                 }
-            }
+            } //the player's access to information also varies depending on what they have, a fist-only fight is super blind
 
-            System.out.println(ANSI_PURPLE + "Make your decision. \n A. Attack" + " B. Wait" + ANSI_RESET);
+            System.out.println(ANSI_PURPLE + "Make your decision. \n A. Attack" + " B. Wait" + ANSI_RESET); //attacking is a roll, waiting boosts next roll
             choice = inputTaker(new String[]{"A", "B"},inventory);
+
             switch (choice) {
                 case "A":
-                    myRoll = rdm.nextInt(atkRoll) + atkBoost;
-                    atkRoll = holdRoll;
+                    myRoll = rdm.nextInt(1,atkRoll) + atkBoost;
+                    atkRoll = holdRoll; //resets atkRoll to original value
 
                     System.out.println("\n I rush towards Flo and attack! \n");
-                    System.out.println(myRoll + " ATTACK " + atkRoll);
+                    //System.out.println(myRoll + " ATTACK " + atkRoll); FOR DEBUGGING
 
                     pressEnter();
 
-                    if (myRoll < 4) {
+                    if (myRoll < 2+atkBoost) { //If your attack roll is low enough, flo might attempt to dodge. This also means that she'll rarely dodge fists, since it's boost is -1.
                         System.out.println("Flo attempts to dodge ");
-                        floRoll = rdm.nextInt(5);
-                        if (floRoll > myRoll-2) { //subtracting 2 from myRoll to get the value without the atkBoost
+                        floRoll = rdm.nextInt(0,5);
+                        if (floRoll > myRoll-atkBoost) { //subtracting 2 from myRoll to get the value without the atkBoost
                             System.out.println(" and she succeeds, taking no damage.");
                         } else {
                             System.out.println(" but it doesn't work, and she takes full damage." + ANSI_PURPLE + "\nFlo took " + myRoll + " damage!" + ANSI_RESET);
@@ -516,13 +501,13 @@ public class Main {
                         }
                     } else {
                         floRoll = rdm.nextInt(10) / 2;
-                        damage = myRoll - floRoll;
+                        damage = myRoll - floRoll; //blocking roll, Flo's atk boost doesn't apply here cause it turns out to be a lil unbalanced
 
                         System.out.println("Flo attempts to block ");
-                        System.out.println(floRoll + " BLOCK?");
+                        //System.out.println(floRoll + " BLOCK?"); FOR DEBUGGING
 
                         if (damage <= 0) {
-                            damage = 1;
+                            damage = 1; //blocking cant reduce the damage to 0
                         }
                         floHealth -= damage;
                         System.out.println(" and she reduces my damage to " + damage);
@@ -533,7 +518,7 @@ public class Main {
                 case "B":
                     System.out.println("I stand back and look at Flo, trying to keep a calm mind. \n I'm looking for weaknesses, slip-ups, anything.");
                     System.out.println(ANSI_PURPLE + "Your next attack roll will be out of 12!" + "\n Dodging gets a +2." + ANSI_RESET);
-                    atkRoll = 12;
+                    atkRoll = 12; //boosts rolls to 12 & 7 respectively
                     dodgeRoll=7;
                     break;
 
@@ -548,14 +533,15 @@ public class Main {
 
             if (floRoll > 3) {
                 System.out.println("Flo decides to wait and observe me. Her next attack will be more powerful.");
-                floAtk = 12;
+                floAtk = 12; //Flo doesnt get her dodge boosted for balance
+
             } else {
                 System.out.println("Flo is attacking!");
                 floRoll = rdm.nextInt(floAtk) + 2;
-                floAtk = 5;
+                floAtk = 5; //reset Flo's attack
                 pressEnter();
 
-                if (keyPoints.get("holySword")) {
+                if (keyPoints.get("holySword")) { //different information based on what you have, fists gets no damage indicato
                     System.out.println(ANSI_BLUE + "Flo will be attacking you with " + floRoll + " damage!");
                 } else if (keyPoints.get("altarKey")) {
                     System.out.println(ANSI_BLUE + "Flo wi attyou ll ackingama b︎th " + floRoll + " dge!");
@@ -567,15 +553,15 @@ public class Main {
                 switch (choice) {
                     case "A":
                         System.out.println("I decide to block, or attempt it at least. I end up blocking her attack to ");
-                        myRoll = rdm.nextInt(holdRoll * 2) / 2 + atkBoost;
-                        System.out.println(myRoll);
+                        myRoll = rdm.nextInt(holdRoll * 2) / 2 + atkBoost; //player gets the atkboost onto block, not good for fists
+                        //System.out.println(myRoll); FOR DEBUGGING
 
 
                         damage = floRoll - myRoll;
                         if (damage <= 0) {
                             damage = 1;
-                        }
-                        System.out.println(damage + " damage.");
+                        } //cant get damage below 1
+                        System.out.println(damage + " damage."); //player will get info after they have made a decision no matter what
                         myHealth -= damage;
                         break;
 
@@ -583,9 +569,9 @@ public class Main {
                         System.out.println("I attempt to dodge ");
                         myRoll = rdm.nextInt(dodgeRoll);
                         dodgeRoll=5;//reset
-                        System.out.println(myRoll + " " + floRoll);
+                       // System.out.println(myRoll + " " + floRoll); FOR DEBUGGING
 
-                        if (floRoll - 2 < myRoll) {
+                        if (floRoll - 2 < myRoll) { //floroll-2 to account for her boost and only compare the roll itself
                             System.out.println(" and I succeed, taking no damage.");
                         } else {
                             System.out.println(" but it doesn't work, and I take full damage." + ANSI_PURPLE + "\n You took " + floRoll + " damage!" + ANSI_RESET);
@@ -598,7 +584,7 @@ public class Main {
 
 
 
-            System.out.println(myHealth + " " + floHealth);
+          //  System.out.println(myHealth + " " + floHealth); FOR DEBUGGING
 
         }
         pressEnter();
