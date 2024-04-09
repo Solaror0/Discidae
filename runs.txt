@@ -75,3 +75,19 @@ Run #: 10
 Ending: "You stayed true to your humanity."
 Decisions: [A, A, B, A, C, B]
 
+Run #: 10
+Ending: "The holy sword delivered justice through you as a medium. Bloodthirsty Ending!"
+Decisions: [B, B, B, B, C, C, B, B]
+
+Run #: 10
+Ending: "-"
+Decisions: [C]
+
+Run #: 10
+Ending: "You lost consciousness, and Brand doesn't take prisoners."
+Decisions: [B, B, B, B, B, B]
+
+Run #: 10
+Ending: "-"
+Decisions: [C]
+

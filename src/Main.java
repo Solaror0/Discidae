@@ -61,19 +61,18 @@ public class Main {
         keyPoints.put("doddsDead", false);
 
 
-//        if (sc.nextLine().equals("Dev")) {
-//            String[] devDecisions = ((sc.nextLine()).split(" "));
-//            Collections.addAll(decisions, devDecisions);
-//            devMode = true; //there is a very used method that needs to see devMode
-//            // but its called in methods that don't need to pass keyPoints at ALL
-//            keyPoints.put("devMode", true);
-//        }
+        if (sc.nextLine().equals("Dev")) {
+            String[] devDecisions = ((sc.nextLine()).split(" "));
+            Collections.addAll(decisions, devDecisions);
+            devMode = true; //there is a very used method that needs to see devMode
+            // but its called in methods that don't need to pass keyPoints at ALL
+            keyPoints.put("devMode", true);
+        }
 //UNCOMMENT THIS FOR DEV MODE ^^^
 
         printEngine("intro");
-        beginningOne();
-        beginningTwo(decisions, keyPoints, inventory);
-        hallwayThree(decisions, keyPoints, inventory);
+        beginningOne(decisions, keyPoints, inventory);
+
     }
 
     /**
@@ -181,11 +180,12 @@ public class Main {
        // System.out.println(inventory.get("Decisions") + " " + decisions.size());  FOR DEBUGGING
 
         if (keyPoints.get("devMode") && (decisions.size() > inventory.get("Decisions"))) { //checks if devmode is on, and if decisions are left in devmode. E.g if the game is on decision #4 but was only given "A A B" then it won't continue dev mode
-            turnIterator(inventory); //adds to turn iterator like the game normally would,
+            turnIterator(inventory); //adds to turn iterator like the game normally would.
             decision = decisions.get(inventory.get("Decisions") - 1); //and accesses index the game would normally be at
         } else {
-            turnIterator(inventory); //otherwise, it normally runs whee it increments decisions and takes input
-            decision = (inputTaker(validInputs,inventory));
+            turnIterator(inventory); //otherwise, it normally runs where it increments decisions made and takes input
+            decision = (inputTaker(validInputs,inventory)); //in normal cases the # of decisions made could just be taken with decisions.size(),
+            // but it's incremented separately because we need to compare the .size() and actual turns completed like this
             decisions.add(decision);
         }
 
@@ -1343,22 +1343,25 @@ public class Main {
 
     }
 
+
     /**
-     * Hallway three.
-     *
-     * @param decisions the decisions
-     * @param keyPoints the key points
-     * @param inventory the inventory
-     * @throws IOException the io exception
+     * The beginning function that calls the first other functions
+     * @param decisions The arraylist containing all decisions
+     * @param keyPoints The hashmap containing all significant game-altering booleans
+     * @param inventory The hashmap containing all inventory items as well as a decision count alternate to size
      */
-    public static void hallwayThree(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
-        String choice;
-        //turnIterator(inventory);
-        if (!(keyPoints.get("devMode")) && (decisions.size() >= inventory.get("Decisions"))) {
-            choice = (decisions.get(decisions.size() - 1)).toUpperCase();
-        } else {
-            choice = decisions.get(inventory.get("Decisions") - 1);
-        }
+    public static void beginningOne(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) throws IOException {
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Another day of school. Same time, same place. As I enter the front foyer I see my old science teacher. He greets me by my name." +
+                "\n What do I hear?");
+
+        String name = sc.nextLine();
+        System.out.println(ANSI_YELLOW + "Good morning " + name + "!" + ANSI_RESET + " He was already down the hallway by the end of his sentence, late to his class once again. ");
+        System.out.println("My attention back to the foyer, I had three directions: the left hallway which led to my first period \n, right hallway, or exiting the school entirely. \n" + ANSI_PURPLE +
+                "\n A. left hallway \n B. right hallway \n C. exit the school \n Enter letter A B or C" + ANSI_RESET);
+
+        String choice = decisionModule(new String[]{"A", "B", "C"},keyPoints,inventory,decisions);
 
         switch (choice) {
             case "A": //left hallway
@@ -1378,41 +1381,10 @@ public class Main {
                 deathScreen("-", decisions.size(), decisions);
                 break;
         }
-    }
-
-    /**
-     * Beginning one.
-     */
-    public static void beginningOne() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Another day of school. Same time, same place. As I enter the front foyer I see my old science teacher. He greets me by my name." +
-                "\n What do I hear?");
-
-        String name = sc.nextLine();
-        System.out.println(ANSI_YELLOW + "Good morning " + name + "!" + ANSI_RESET + " He was already down the hallway by the end of his sentence, late to his class once again. ");
-
 
     }
 
-    /**
-     * Beginning two.
-     *
-     * @param decisions the decisions
-     * @param keyPoints the key points
-     * @param inventory the inventory
-     */
-    public static void beginningTwo(ArrayList<String> decisions, HashMap<String, Boolean> keyPoints, HashMap<String, Integer> inventory) {
 
-        System.out.println("My attention back to the foyer, I had three directions: the left hallway which led to my first period \n, right hallway, or exiting the school entirely. \n" + ANSI_PURPLE +
-                "\n A. left hallway \n B. right hallway \n C. exit the school \n Enter letter A B or C" + ANSI_RESET);
-
-
-        if (!(keyPoints.get("devMode")) && (decisions.size() >= inventory.get("Decisions"))) {
-            decisions.add(inputTaker(new String[]{"A", "B", "C"},inventory));
-        }
-        turnIterator(inventory);
-    }
 
 
 }
