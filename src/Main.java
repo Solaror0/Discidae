@@ -310,7 +310,7 @@ public class Main {
 
         FileWriter runFile = new FileWriter("runs.txt", true);
         PrintWriter runs = new PrintWriter(runFile); //opens runs.txt in append mode
-        runs.println("Run #: " + runNum + "\nEnding: \"" + ending + "\"\n" + "Decisions: " + decisions + "\n"); //prints the log into it
+        runs.println("\nRun #: " + runNum + "\nEnding: \"" + ending + "\"\n" + "Decisions: " + decisions + "\n"); //prints the log into it
         runs.close();
     }
 
@@ -1299,8 +1299,8 @@ public class Main {
                 System.out.println("As always, conversation with her feels stilted and unnatural. Anyways, I go to my seat beside Flo.");
                 break;
         }
-        System.out.println(decisions);
-        System.out.println(inventory.get("Decisions"));
+
+
         floClassTalk(decisions, keyPoints, inventory);
     }
 
