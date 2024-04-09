@@ -1,8 +1,8 @@
 /*
 TITLE - DISCIDAE
-Description -
+Description - A choose your own adventure game. Please refer to the README file
 Author - Jun Nur
-Last Edited -
+Last Edited - 2024-04-09
 */
 
 import java.util.*;
@@ -61,13 +61,13 @@ public class Main {
         keyPoints.put("doddsDead", false);
 
 
-        if (sc.nextLine().equals("Dev")) {
-            String[] devDecisions = ((sc.nextLine()).split(" "));
-            Collections.addAll(decisions, devDecisions);
-            devMode = true; //there is a very used method that needs to see devMode
-            // but its called in methods that don't need to pass keyPoints at ALL
-            keyPoints.put("devMode", true);
-        }
+//        if (sc.nextLine().equals("Dev")) {
+//            String[] devDecisions = ((sc.nextLine()).split(" "));
+//            Collections.addAll(decisions, devDecisions);
+//            devMode = true; //there is a very used method that needs to see devMode
+//            // but its called in methods that don't need to pass keyPoints at ALL
+//            keyPoints.put("devMode", true);
+//        }
 //UNCOMMENT THIS FOR DEV MODE ^^^
 
         printEngine("intro");
