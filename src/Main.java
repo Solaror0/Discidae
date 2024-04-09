@@ -222,11 +222,12 @@ public class Main {
      *
      * @param decisions the decisions
      */
-    public static void leaveSchool(ArrayList<String> decisions) {
+    public static void leaveSchool(ArrayList<String> decisions) throws IOException {
         pressEnter();
 
         System.out.println(ANSI_PURPLE + "You chose to leave the school, prioritizing your own safety. God knows what you left back in there." + ANSI_RESET);
 
+        runCounter(decisions,"\"You chose to leave the school, prioritizing your own safety. God knows what you left back in there.\"");
         System.out.println("""
                   ______                     _                     ______             _  _              \s
                  |  ____|                   | |                   |  ____|           | |(_)             \s
@@ -295,21 +296,20 @@ public class Main {
      * @throws IOException the io exception
      */
     public static void runCounter(ArrayList<String> decisions, String ending) throws IOException {
-        //first opening the file as READ to get the run number
-        File temp = new File("runs.txt");
+        //first opening runNum.txt file as READ to get the run number
+        File temp = new File("runNum.txt"); //a file that only holds the most recent number
         Scanner runsRead = new Scanner(temp);
-        String runNum = null;
-
-        while (runsRead.hasNext()) {
-            String next = runsRead.next();
-            if ("0123456789".contains(next)) {
-                runNum = String.valueOf((Integer.parseInt(next) + 1)); //only need the most recent one so if it updates everytime theres a number that works
-            }
-        }
+        int runNum = Integer.parseInt(runsRead.next()) + 1;
+        //I could have done a thing where I read the entire runs.txt file to find the number,
+        // and then reread it, but this was way less complicated because the first line of runNum will always be a number
         runsRead.close();
 
+        PrintWriter runNumChanger = new PrintWriter("runNum.txt");
+        runNumChanger.println(runNum); //updating runNum txt
+        runNumChanger.close();
+
         FileWriter runFile = new FileWriter("runs.txt", true);
-        PrintWriter runs = new PrintWriter(runFile); //opens the file in append mode
+        PrintWriter runs = new PrintWriter(runFile); //opens runs.txt in append mode
         runs.println("Run #: " + runNum + "\nEnding: \"" + ending + "\"\n" + "Decisions: " + decisions + "\n"); //prints the log into it
         runs.close();
     }
